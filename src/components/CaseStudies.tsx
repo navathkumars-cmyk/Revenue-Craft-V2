@@ -1,249 +1,160 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { CASE_STUDIES } from '../data/mockData';
 import { CaseStudy } from '../types';
+import { Quote, ArrowUpRight } from 'lucide-react';
 
 interface CaseStudiesProps {
   onSelectCaseStudy: (study: CaseStudy) => void;
   showTitle?: boolean;
+  theme?: 'dark' | 'light';
 }
 
-export const CaseStudies: React.FC<CaseStudiesProps> = ({ onSelectCaseStudy, showTitle = true }) => {
-  const [selectedSector, setSelectedSector] = useState<string>('All Sectors');
-
-  const sectors = ['All Sectors', 'E-Commerce Scale', 'SaaS Growth', 'FinTech', 'Global Rebrand'];
-
-  const filteredStudies = selectedSector === 'All Sectors'
-    ? CASE_STUDIES
-    : CASE_STUDIES.filter((s) => s.sector === selectedSector);
-
-  const auraStudy = CASE_STUDIES.find((s) => s.id === 'aura-jewelry');
-  const nexusStudy = CASE_STUDIES.find((s) => s.id === 'nexus-analytics');
-  const quantumStudy = CASE_STUDIES.find((s) => s.id === 'quantum-capital');
-  const vanguardStudy = CASE_STUDIES.find((s) => s.id === 'vanguard-logistics');
+export const CaseStudies: React.FC<CaseStudiesProps> = ({
+  onSelectCaseStudy,
+  showTitle = true,
+  theme = 'dark'
+}) => {
+  const isLight = theme === 'light';
 
   return (
-    <section className="max-w-[1440px] mx-auto px-6 lg:px-12 py-24 border-t border-white/10">
+    <section id="case-studies" className={`max-w-[1440px] mx-auto px-6 lg:px-12 py-24 border-t ${
+      isLight ? 'border-neutral-200' : 'border-white/10'
+    }`}>
       {/* Header */}
       {showTitle && (
-        <div className="max-w-3xl mb-12">
+        <div className="max-w-3xl mb-16">
           <span className="block font-mono-custom text-xs uppercase tracking-[0.4em] text-orange-500 font-bold mb-3">
-            PROVEN PERFORMANCE
+            04 // PROVEN OUTCOMES
           </span>
-          <h2 className="font-syne text-4xl sm:text-5xl md:text-6xl font-black text-white uppercase tracking-tight mb-6">
+          <h2 className={`font-syne text-4xl sm:text-5xl md:text-6xl font-black uppercase tracking-tight mb-6 ${
+            isLight ? 'text-black' : 'text-white'
+          }`}>
             CASE STUDIES<span className="text-orange-500">.</span>
           </h2>
-          <p className="font-geist text-base sm:text-lg text-white/60 leading-relaxed">
-            A curated selection of our most transformative growth engagements. We engineer the high-yield media and conversion systems that scale DTC and B2B leaders.
+          <p className={`font-geist text-base sm:text-lg leading-relaxed ${
+            isLight ? 'text-neutral-600' : 'text-white/60'
+          }`}>
+            A sample of engagements across SaaS, D2C, and healthcare — each one starting with measurement, not media spend.
           </p>
         </div>
       )}
 
-      {/* Sector Filter Chips */}
-      <div className="flex flex-wrap gap-3 mb-12 border-b border-white/10 pb-6">
-        {sectors.map((sector) => (
-          <button
-            key={sector}
-            onClick={() => setSelectedSector(sector)}
-            className={`font-mono-custom text-xs uppercase tracking-widest px-5 py-2.5 transition-all cursor-pointer ${
-              selectedSector === sector
-                ? 'bg-orange-500 text-black border-orange-500 font-black'
-                : 'bg-[#111111] text-white/70 border border-white/20 hover:border-orange-500 hover:text-white'
+      {/* Case Studies Cards */}
+      <div className="space-y-12 mb-20">
+        {CASE_STUDIES.map((study, idx) => (
+          <div
+            key={study.id}
+            onClick={() => onSelectCaseStudy(study)}
+            className={`group border p-8 sm:p-12 relative transition-all duration-300 hover:border-orange-500 cursor-pointer shadow-2xl overflow-hidden ${
+              isLight ? 'bg-white border-neutral-200' : 'bg-[#111111] border-white/10'
             }`}
           >
-            {sector}
-          </button>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+              <div className="lg:col-span-8 space-y-4">
+                <div className="flex items-center space-x-3">
+                  <span className="font-mono-custom text-xs uppercase tracking-widest text-orange-500 font-black px-3 py-1 border border-orange-500/30 bg-orange-500/10">
+                    {study.sector}
+                  </span>
+                  <span className={`font-mono-custom text-xs uppercase ${isLight ? 'text-neutral-500' : 'text-white/40'}`}>
+                    ENGAGEMENT 0{idx + 1}
+                  </span>
+                </div>
+
+                <h3 className={`font-syne text-3xl sm:text-4xl font-black uppercase group-hover:text-orange-500 transition-colors ${
+                  isLight ? 'text-black' : 'text-white'
+                }`}>
+                  {study.client} — {study.summary}
+                </h3>
+
+                <p className={`font-geist text-sm sm:text-base leading-relaxed ${
+                  isLight ? 'text-neutral-600' : 'text-white/70'
+                }`}>
+                  {study.description}
+                </p>
+
+                {/* Key Metrics row */}
+                <div className="grid grid-cols-3 gap-4 pt-4 border-t border-white/10">
+                  {study.results.map((res, rIdx) => (
+                    <div key={rIdx}>
+                      <span className="font-syne text-2xl sm:text-3xl font-black text-orange-500 block">
+                        {res.value}
+                      </span>
+                      <span className={`font-mono-custom text-[10px] uppercase font-bold block ${
+                        isLight ? 'text-neutral-500' : 'text-white/50'
+                      }`}>
+                        {res.label}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Metric Callout Card */}
+              <div className="lg:col-span-4 flex flex-col justify-center items-start lg:items-end border-l lg:border-l-2 border-orange-500 pl-6 lg:pl-8 space-y-2">
+                <span className={`font-mono-custom text-xs font-bold uppercase tracking-widest ${
+                  isLight ? 'text-neutral-500' : 'text-white/40'
+                }`}>
+                  PRIMARY LIFT
+                </span>
+                <span className="font-syne text-5xl sm:text-6xl font-black text-orange-500">
+                  {study.keyMetricValue}
+                </span>
+                <span className={`font-geist text-xs font-medium ${isLight ? 'text-neutral-700' : 'text-white/80'}`}>
+                  {study.keyMetricSubtext}
+                </span>
+
+                <button className="mt-4 font-mono-custom text-xs uppercase font-black tracking-widest text-orange-500 flex items-center space-x-1 group-hover:underline">
+                  <span>VIEW CASE STUDY</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </div>
         ))}
       </div>
 
-      {/* Grid Layout */}
-      {selectedSector === 'All Sectors' ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Card 1: Aura Fine Jewelry */}
-          {auraStudy && (
-            <div
-              onClick={() => onSelectCaseStudy(auraStudy)}
-              className="col-span-1 md:col-span-2 relative group overflow-hidden border border-white/10 bg-[#111111] card-hover min-h-[500px] flex items-end p-8 sm:p-12 cursor-pointer"
-            >
-              <div
-                className="absolute inset-0 z-0 card-blur-bg bg-cover bg-center opacity-40 group-hover:opacity-60 transition-opacity"
-                style={{ backgroundImage: `url('${auraStudy.bgImage}')` }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/70 to-transparent z-10" />
-
-              <div className="relative z-20 w-full flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
-                <div className="max-w-2xl">
-                  <span className="inline-block px-3 py-1 bg-[#0A0A0A]/90 border border-white/20 font-mono-custom text-xs uppercase text-orange-500 font-bold mb-4 backdrop-blur-md">
-                    {auraStudy.sector}
-                  </span>
-                  <h3 className="font-syne text-3xl sm:text-4xl md:text-5xl font-black uppercase text-white mb-3 group-hover:text-orange-500 transition-colors">
-                    {auraStudy.title}
-                  </h3>
-                  <p className="font-geist text-sm sm:text-base text-white/60 leading-relaxed">
-                    {auraStudy.summary}
-                  </p>
-                </div>
-
-                <div className="flex flex-col items-start md:items-end shrink-0 border-l md:border-l-0 md:border-r border-white/20 pl-4 md:pl-0 md:pr-6">
-                  <span className="font-mono-custom text-xs text-white/40 mb-1 uppercase tracking-widest font-bold">
-                    PRIMARY METRIC LIFT
-                  </span>
-                  <span className="font-syne text-4xl sm:text-5xl font-black text-orange-500">
-                    {auraStudy.keyMetricValue}
-                  </span>
-                  <span className="font-geist text-xs text-white/60">
-                    {auraStudy.keyMetricSubtext}
-                  </span>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Card 2: Nexus Analytics */}
-          {nexusStudy && (
-            <div
-              onClick={() => onSelectCaseStudy(nexusStudy)}
-              className="relative group overflow-hidden border border-white/10 bg-[#111111] card-hover min-h-[420px] flex items-end p-8 cursor-pointer"
-            >
-              <div
-                className="absolute inset-0 z-0 card-blur-bg bg-cover bg-center opacity-30 group-hover:opacity-50 transition-opacity"
-                style={{ backgroundImage: `url('${nexusStudy.bgImage}')` }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/70 to-transparent z-10" />
-
-              <div className="relative z-20 w-full">
-                <span className="inline-block px-3 py-1 bg-[#0A0A0A]/90 border border-white/20 font-mono-custom text-xs uppercase text-orange-500 font-bold mb-4 backdrop-blur-md">
-                  {nexusStudy.sector}
-                </span>
-                <h3 className="font-syne text-2xl sm:text-3xl font-black text-white uppercase mb-2 group-hover:text-orange-500 transition-colors">
-                  {nexusStudy.title}
-                </h3>
-                <p className="font-geist text-sm text-white/60 mb-6">
-                  {nexusStudy.summary}
-                </p>
-                <div className="flex items-baseline space-x-3 border-l border-white/20 pl-4">
-                  <span className="font-syne text-3xl font-black text-orange-500">
-                    {nexusStudy.keyMetricValue}
-                  </span>
-                  <span className="font-mono-custom text-xs text-white/40 uppercase font-bold">
-                    {nexusStudy.keyMetricSubtext}
-                  </span>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Card 3: Quantum Capital */}
-          {quantumStudy && (
-            <div
-              onClick={() => onSelectCaseStudy(quantumStudy)}
-              className="relative group overflow-hidden border border-white/10 bg-[#111111] card-hover min-h-[420px] flex items-end p-8 cursor-pointer"
-            >
-              <div
-                className="absolute inset-0 z-0 card-blur-bg bg-cover bg-center opacity-30 group-hover:opacity-50 transition-opacity"
-                style={{ backgroundImage: `url('${quantumStudy.bgImage}')` }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/70 to-transparent z-10" />
-
-              <div className="relative z-20 w-full">
-                <span className="inline-block px-3 py-1 bg-[#0A0A0A]/90 border border-white/20 font-mono-custom text-xs uppercase text-orange-500 font-bold mb-4 backdrop-blur-md">
-                  {quantumStudy.sector}
-                </span>
-                <h3 className="font-syne text-2xl sm:text-3xl font-black text-white uppercase mb-2 group-hover:text-orange-500 transition-colors">
-                  {quantumStudy.title}
-                </h3>
-                <p className="font-geist text-sm text-white/60 mb-6">
-                  {quantumStudy.summary}
-                </p>
-                <div className="flex items-baseline space-x-3 border-l border-white/20 pl-4">
-                  <span className="font-syne text-3xl font-black text-orange-500">
-                    {quantumStudy.keyMetricValue}
-                  </span>
-                  <span className="font-mono-custom text-xs text-white/40 uppercase font-bold">
-                    {quantumStudy.keyMetricSubtext}
-                  </span>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Card 4: Vanguard Logistics */}
-          {vanguardStudy && (
-            <div
-              onClick={() => onSelectCaseStudy(vanguardStudy)}
-              className="col-span-1 md:col-span-2 relative group overflow-hidden border border-white/10 bg-[#111111] card-hover min-h-[500px] flex items-end p-8 sm:p-12 cursor-pointer"
-            >
-              <div
-                className="absolute inset-0 z-0 card-blur-bg bg-cover bg-center opacity-40 group-hover:opacity-60 transition-opacity"
-                style={{ backgroundImage: `url('${vanguardStudy.bgImage}')` }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/70 to-transparent z-10" />
-
-              <div className="relative z-20 w-full flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
-                <div className="max-w-2xl">
-                  <span className="inline-block px-3 py-1 bg-[#0A0A0A]/90 border border-white/20 font-mono-custom text-xs uppercase text-orange-500 font-bold mb-4 backdrop-blur-md">
-                    {vanguardStudy.sector}
-                  </span>
-                  <h3 className="font-syne text-3xl sm:text-4xl md:text-5xl font-black uppercase text-white mb-3 group-hover:text-orange-500 transition-colors">
-                    {vanguardStudy.title}
-                  </h3>
-                  <p className="font-geist text-sm sm:text-base text-white/60 leading-relaxed">
-                    {vanguardStudy.summary}
-                  </p>
-                </div>
-
-                <div className="flex flex-col items-start md:items-end shrink-0 border-l md:border-l-0 md:border-r border-white/20 pl-4 md:pl-0 md:pr-6">
-                  <span className="font-mono-custom text-xs text-white/40 mb-1 uppercase tracking-widest font-bold">
-                    PRIMARY METRIC LIFT
-                  </span>
-                  <span className="font-syne text-4xl sm:text-5xl font-black text-orange-500">
-                    {vanguardStudy.keyMetricValue}
-                  </span>
-                  <span className="font-geist text-xs text-white/60">
-                    {vanguardStudy.keyMetricSubtext}
-                  </span>
-                </div>
-              </div>
-            </div>
-          )}
+      {/* Client Quotes Section */}
+      <div className="space-y-8 pt-6">
+        <div className="border-b pb-4 border-orange-500/30">
+          <span className="font-mono-custom text-xs uppercase tracking-[0.3em] text-orange-500 font-bold block mb-1">
+            CLIENT TESTIMONIALS
+          </span>
+          <h2 className={`font-syne text-3xl font-black uppercase ${isLight ? 'text-black' : 'text-white'}`}>
+            WHAT LEADERSHIP SAYS
+          </h2>
         </div>
-      ) : (
-        /* Filtered Grid View */
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {filteredStudies.map((study) => (
-            <div
-              key={study.id}
-              onClick={() => onSelectCaseStudy(study)}
-              className="relative group overflow-hidden border border-white/10 bg-[#111111] card-hover min-h-[450px] flex items-end p-8 cursor-pointer"
-            >
-              <div
-                className="absolute inset-0 z-0 card-blur-bg bg-cover bg-center opacity-30 group-hover:opacity-50 transition-opacity"
-                style={{ backgroundImage: `url('${study.bgImage}')` }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/70 to-transparent z-10" />
 
-              <div className="relative z-20 w-full">
-                <span className="inline-block px-3 py-1 bg-[#0A0A0A]/90 border border-white/20 font-mono-custom text-xs uppercase text-orange-500 font-bold mb-4 backdrop-blur-md">
-                  {study.sector}
-                </span>
-                <h3 className="font-syne text-3xl font-black text-white uppercase mb-2 group-hover:text-orange-500 transition-colors">
-                  {study.title}
-                </h3>
-                <p className="font-geist text-sm text-white/60 mb-6">
-                  {study.summary}
-                </p>
-                <div className="flex items-baseline space-x-3 border-l border-white/20 pl-4">
-                  <span className="font-syne text-3xl font-black text-orange-500">
-                    {study.keyMetricValue}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {CASE_STUDIES.map((cs) => (
+            cs.quote && (
+              <div
+                key={cs.id}
+                className={`p-8 border flex flex-col justify-between space-y-6 shadow-xl ${
+                  isLight ? 'bg-neutral-50 border-neutral-200' : 'bg-[#0E0E0E] border-white/10'
+                }`}
+              >
+                <div className="space-y-4">
+                  <Quote className="w-8 h-8 text-orange-500 opacity-60" />
+                  <p className={`font-geist text-sm leading-relaxed italic ${
+                    isLight ? 'text-neutral-800' : 'text-white/90'
+                  }`}>
+                    "{cs.quote.text}"
+                  </p>
+                </div>
+
+                <div className="pt-4 border-t border-orange-500/20">
+                  <span className={`font-syne text-sm font-bold block uppercase ${isLight ? 'text-black' : 'text-white'}`}>
+                    {cs.quote.author}
                   </span>
-                  <span className="font-mono-custom text-xs text-white/40 uppercase font-bold">
-                    {study.keyMetricSubtext}
+                  <span className={`font-mono-custom text-xs block ${isLight ? 'text-neutral-500' : 'text-white/50'}`}>
+                    {cs.quote.title}
                   </span>
                 </div>
               </div>
-            </div>
+            )
           ))}
         </div>
-      )}
+      </div>
     </section>
   );
 };

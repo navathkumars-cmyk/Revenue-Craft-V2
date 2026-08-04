@@ -4,28 +4,39 @@ import { ArrowUpRight } from 'lucide-react';
 interface FooterProps {
   onOpenConsultation: () => void;
   onNavigateTab: (tab: string) => void;
+  theme?: 'dark' | 'light';
 }
 
-export const Footer: React.FC<FooterProps> = ({ onOpenConsultation, onNavigateTab }) => {
+export const Footer: React.FC<FooterProps> = ({ onOpenConsultation, onNavigateTab, theme = 'dark' }) => {
+  const isLight = theme === 'light';
+
   return (
-    <footer className="bg-[#0A0A0A] border-t border-white/10 pt-20 pb-12 text-white">
+    <footer className={`border-t pt-20 pb-12 transition-colors ${
+      isLight ? 'bg-[#F8F9FA] border-neutral-200 text-neutral-900' : 'bg-[#0A0A0A] border-white/10 text-white'
+    }`}>
       <div className="max-w-[1440px] mx-auto px-6 lg:px-12 space-y-16">
         {/* Top Banner CTA */}
-        <div className="bg-[#111111] border border-orange-500 p-8 sm:p-14 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8 shadow-2xl">
+        <div className={`border p-8 sm:p-14 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8 shadow-2xl ${
+          isLight ? 'bg-white border-orange-500 text-neutral-900' : 'bg-[#111111] border-orange-500 text-white'
+        }`}>
           <div className="space-y-3 max-w-2xl">
             <span className="font-mono-custom text-xs uppercase tracking-[0.4em] text-orange-500 font-bold block">
               ENTERPRISE ENGAGEMENT
             </span>
-            <h2 className="font-syne text-3xl sm:text-5xl font-black uppercase text-white tracking-tight">
+            <h2 className={`font-syne text-3xl sm:text-5xl font-black uppercase tracking-tight ${
+              isLight ? 'text-black' : 'text-white'
+            }`}>
               READY TO SCALE YOUR REVENUE ENGINE<span className="text-orange-500">?</span>
             </h2>
-            <p className="font-geist text-sm sm:text-base text-white/60">
+            <p className={`font-geist text-sm sm:text-base ${isLight ? 'text-neutral-600' : 'text-white/60'}`}>
               Deploy our quantitative growth architecture to unlock predictable ARR expansion and lower CAC.
             </p>
           </div>
           <button
             onClick={onOpenConsultation}
-            className="bg-white text-black font-mono-custom text-xs uppercase tracking-widest font-black px-8 py-4 hover:bg-orange-500 hover:text-white transition-colors shrink-0 flex items-center space-x-2 cursor-pointer"
+            className={`font-mono-custom text-xs uppercase tracking-widest font-black px-8 py-4 transition-colors shrink-0 flex items-center space-x-2 cursor-pointer ${
+              isLight ? 'bg-black text-white hover:bg-orange-500' : 'bg-white text-black hover:bg-orange-500 hover:text-white'
+            }`}
           >
             <span>BOOK ARCHITECTURE AUDIT</span>
             <ArrowUpRight className="w-4 h-4" />

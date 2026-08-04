@@ -6,18 +6,23 @@ interface CaseStudyModalProps {
   study: CaseStudy | null;
   onClose: () => void;
   onOpenConsultation: () => void;
+  theme?: 'dark' | 'light';
 }
 
 export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
   study,
   onClose,
-  onOpenConsultation
+  onOpenConsultation,
+  theme = 'dark'
 }) => {
   if (!study) return null;
+  const isLight = theme === 'light';
 
   return (
     <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
-      <div className="bg-[#111111] border border-orange-500 max-w-4xl w-full relative shadow-2xl my-8 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <div className={`border border-orange-500 max-w-4xl w-full relative shadow-2xl my-8 overflow-hidden animate-in fade-in zoom-in-95 duration-200 ${
+        isLight ? 'bg-white text-neutral-900' : 'bg-[#111111] text-white'
+      }`}>
         {/* Top Hero Banner in Modal */}
         <div className="relative h-64 sm:h-80 overflow-hidden flex items-end p-8">
           <div

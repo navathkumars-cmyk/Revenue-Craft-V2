@@ -1,10 +1,53 @@
-export type NavSection = 'overview' | 'expertise' | 'case-studies' | 'philosophy' | 'journal';
+export type NavSection = 
+  | 'overview' 
+  | 'services' 
+  | 'industries' 
+  | 'case-studies' 
+  | 'about' 
+  | 'insights' 
+  | 'contact';
+
+export interface ServiceItem {
+  id: string;
+  category: 'Paid Media' | 'Tracking & Analytics' | 'Conversion & CRO' | 'Automation & AI' | 'Video & Brand Production';
+  title: string;
+  url: string;
+  metaTitle: string;
+  metaDescription: string;
+  h1: string;
+  shortDesc: string;
+  fullDesc: string;
+  whatYouGet: string[];
+  ourApproach: string[];
+  faq: { q: string; a: string }[];
+  ctaText: string;
+}
+
+export interface IndustryItem {
+  id: string;
+  title: string;
+  url: string;
+  metaTitle: string;
+  metaDescription: string;
+  h1: string;
+  shortDesc: string;
+  challenges: string[];
+  relevantServices: string[];
+  ctaText: string;
+}
+
+export interface TeamMember {
+  name: string;
+  role: string;
+  bio: string;
+  image?: string;
+}
 
 export interface CaseStudy {
   id: string;
   title: string;
   client: string;
-  sector: 'E-Commerce Scale' | 'SaaS Growth' | 'FinTech' | 'Global Rebrand';
+  sector: 'SaaS' | 'D2C / E-commerce' | 'Healthcare' | 'Local / Franchise' | 'Real Estate' | 'B2B';
   summary: string;
   description: string;
   keyMetricLabel: string;
@@ -12,7 +55,6 @@ export interface CaseStudy {
   keyMetricSubtext: string;
   bgImage: string;
   isFeatured?: boolean;
-  isOffset?: boolean;
   challenge: string;
   solution: string;
   results: {
@@ -25,19 +67,6 @@ export interface CaseStudy {
     author: string;
     title: string;
   };
-}
-
-export interface ExpertisePillar {
-  id: string;
-  code: string;
-  title: string;
-  description: string;
-  icon: string;
-  subItems: {
-    name: string;
-    detail: string;
-  }[];
-  caseStudyRefId?: string;
 }
 
 export interface JournalArticle {
@@ -54,13 +83,22 @@ export interface JournalArticle {
   };
 }
 
+export interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+export interface ComparisonPoint {
+  withoutPartner: string;
+  withRevenueCraft: string;
+}
+
 export interface ConsultationFormData {
   fullName: string;
   workEmail: string;
   companyName: string;
-  annualRevenue: string;
-  focusArea: string;
-  growthObjective: string;
-  notes: string;
-  preferredDate: string;
+  monthlyBudget: string;
+  goals: string;
+  preferredDate?: string;
+  notes?: string;
 }

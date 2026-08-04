@@ -1,35 +1,45 @@
 import React, { useState } from 'react';
-import { EXPERTISE_PILLARS } from '../data/mockData';
+import { SERVICES_LIST } from '../data/mockData';
 import { ArrowRight } from 'lucide-react';
 
 interface ExpertiseDetailProps {
   onOpenConsultation: () => void;
+  theme?: 'dark' | 'light';
 }
 
-export const ExpertiseDetail: React.FC<ExpertiseDetailProps> = ({ onOpenConsultation }) => {
-  const [selectedPillarId, setSelectedPillarId] = useState<string>('performance-marketing');
+export const ExpertiseDetail: React.FC<ExpertiseDetailProps> = ({ onOpenConsultation, theme = 'dark' }) => {
+  const isLight = theme === 'light';
+  const [selectedServiceId, setSelectedServiceId] = useState<string>(SERVICES_LIST[0]?.id || 'google-ads');
 
-  const selectedPillar = EXPERTISE_PILLARS.find((p) => p.id === selectedPillarId) || EXPERTISE_PILLARS[0];
+  const selectedService = SERVICES_LIST.find((s) => s.id === selectedServiceId) || SERVICES_LIST[0];
 
   return (
-    <section className="max-w-[1440px] mx-auto px-6 lg:px-12 py-24 pt-32 border-t border-white/10">
+    <section className={`max-w-[1440px] mx-auto px-6 lg:px-12 py-24 pt-32 border-t ${
+      isLight ? 'border-neutral-200' : 'border-white/10'
+    }`}>
       {/* Top Discipline Header & Visual */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-24">
         <div className="lg:col-span-7 space-y-6">
           <span className="font-mono-custom text-xs uppercase tracking-[0.4em] text-orange-500 font-bold">
             OUR DISCIPLINES
           </span>
-          <h1 className="font-syne text-4xl sm:text-5xl md:text-6xl font-black text-white uppercase tracking-tight">
+          <h1 className={`font-syne text-4xl sm:text-5xl md:text-6xl font-black uppercase tracking-tight ${
+            isLight ? 'text-black' : 'text-white'
+          }`}>
             GROWTH ARCHITECTURE<span className="text-orange-500">.</span>
           </h1>
-          <p className="font-geist text-base sm:text-lg text-white/60 leading-relaxed max-w-xl">
+          <p className={`font-geist text-base sm:text-lg leading-relaxed max-w-xl ${
+            isLight ? 'text-neutral-600' : 'text-white/60'
+          }`}>
             We engineer high-yield revenue systems for ambitious enterprise and DTC brands. Our discipline bridges quantitative media buying with conversion psychology.
           </p>
 
           <div className="pt-4 flex items-center space-x-4">
             <button
               onClick={onOpenConsultation}
-              className="bg-white text-black font-mono-custom text-xs uppercase tracking-widest font-black px-8 py-4 hover:bg-orange-500 hover:text-white transition-colors cursor-pointer"
+              className={`font-mono-custom text-xs uppercase tracking-widest font-black px-8 py-4 transition-colors cursor-pointer ${
+                isLight ? 'bg-black text-white hover:bg-orange-500' : 'bg-white text-black hover:bg-orange-500 hover:text-white'
+              }`}
             >
               AUDIT YOUR ARCHITECTURE
             </button>
@@ -59,12 +69,12 @@ export const ExpertiseDetail: React.FC<ExpertiseDetailProps> = ({ onOpenConsulta
 
       {/* Discipline Selector Tabs */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
-        {EXPERTISE_PILLARS.map((pillar) => {
-          const isSelected = pillar.id === selectedPillarId;
+        {SERVICES_LIST.slice(0, 6).map((service) => {
+          const isSelected = service.id === selectedServiceId;
           return (
             <button
-              key={pillar.id}
-              onClick={() => setSelectedPillarId(pillar.id)}
+              key={service.id}
+              onClick={() => setSelectedServiceId(service.id)}
               className={`p-6 text-left border transition-all duration-300 cursor-pointer ${
                 isSelected
                   ? 'bg-[#111111] border-orange-500 shadow-xl'
@@ -72,13 +82,13 @@ export const ExpertiseDetail: React.FC<ExpertiseDetailProps> = ({ onOpenConsulta
               }`}
             >
               <span className="font-mono-custom text-xs font-black text-orange-500 block mb-2">
-                {pillar.code} // DISCIPLINE
+                {service.category.toUpperCase()}
               </span>
               <h3 className="font-syne text-xl font-bold text-white uppercase mb-2">
-                {pillar.title}
+                {service.title}
               </h3>
               <p className="font-geist text-xs text-white/50 line-clamp-2">
-                {pillar.description}
+                {service.shortDesc}
               </p>
             </button>
           );
@@ -90,29 +100,27 @@ export const ExpertiseDetail: React.FC<ExpertiseDetailProps> = ({ onOpenConsulta
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-6 space-y-6">
             <span className="font-mono-custom text-xs uppercase tracking-[0.3em] text-orange-500 font-bold">
-              {selectedPillar.code} // {selectedPillar.title.toUpperCase()}
+              {selectedService.category.toUpperCase()} // {selectedService.title.toUpperCase()}
             </span>
 
             <h3 className="font-syne text-3xl sm:text-4xl font-black text-white uppercase tracking-tight">
-              MARKET DEFINITION & POSTURE
+              {selectedService.h1}
             </h3>
 
             <p className="font-geist text-base text-white/60 leading-relaxed">
-              We redefine the growth matrix. By identifying high-intent audiences and calibrating creative positioning, we transform ad spend into predictable customer acquisition.
+              {selectedService.fullDesc}
             </p>
 
-            <div className="space-y-4 pt-4 border-t border-white/10">
-              {selectedPillar.subItems.map((item, idx) => (
+            <div className="space-y-3 pt-4 border-t border-white/10">
+              <span className="font-mono-custom text-xs text-orange-500 uppercase font-bold block">
+                DELIVERABLE HIGHLIGHTS:
+              </span>
+              {selectedService.whatYouGet.map((item, idx) => (
                 <div key={idx} className="flex items-start space-x-3">
                   <span className="w-2 h-2 rounded-none bg-orange-500 mt-2 shrink-0" />
-                  <div>
-                    <h4 className="font-geist text-sm font-bold text-white">
-                      {item.name}
-                    </h4>
-                    <p className="font-geist text-xs text-white/50">
-                      {item.detail}
-                    </p>
-                  </div>
+                  <span className="font-geist text-xs text-white/80">
+                    {item}
+                  </span>
                 </div>
               ))}
             </div>
@@ -120,29 +128,23 @@ export const ExpertiseDetail: React.FC<ExpertiseDetailProps> = ({ onOpenConsulta
 
           <div className="lg:col-span-6 bg-[#0A0A0A] border border-white/20 p-8 space-y-6">
             <h4 className="font-mono-custom text-xs uppercase tracking-widest text-orange-500 font-bold">
-              EXPECTED ARCHITECTURAL OUTCOMES
+              3-STEP IMPLEMENTATION METHODOLOGY
             </h4>
 
             <div className="space-y-4">
-              <div className="flex justify-between items-center p-4 bg-[#111111] border border-white/10">
-                <span className="font-geist text-sm text-white font-medium">CAC Reduction</span>
-                <span className="font-mono-custom text-sm text-orange-500 font-black">-35% to -50%</span>
-              </div>
-              <div className="flex justify-between items-center p-4 bg-[#111111] border border-white/10">
-                <span className="font-geist text-sm text-white font-medium">Sales Pipeline Acceleration</span>
-                <span className="font-mono-custom text-sm text-orange-500 font-black">2.5x Velocity</span>
-              </div>
-              <div className="flex justify-between items-center p-4 bg-[#111111] border border-white/10">
-                <span className="font-geist text-sm text-white font-medium">Net Revenue Retention (NRR)</span>
-                <span className="font-mono-custom text-sm text-orange-500 font-black">128%+ Parity</span>
-              </div>
+              {selectedService.ourApproach.map((step, idx) => (
+                <div key={idx} className="p-4 bg-[#111111] border border-white/10 space-y-1">
+                  <span className="font-mono-custom text-xs text-orange-500 font-bold">PHASE 0{idx + 1}</span>
+                  <p className="font-geist text-xs text-white font-medium">{step}</p>
+                </div>
+              ))}
             </div>
 
             <button
               onClick={onOpenConsultation}
               className="w-full bg-white text-black font-mono-custom text-xs uppercase tracking-widest font-black py-4 hover:bg-orange-500 hover:text-white transition-colors flex items-center justify-center space-x-2 cursor-pointer"
             >
-              <span>SCHEDULE ARCHITECTURE REVIEW</span>
+              <span>{selectedService.ctaText}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>

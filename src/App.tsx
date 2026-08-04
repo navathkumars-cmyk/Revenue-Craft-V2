@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { Capabilities } from './components/Capabilities';
+import { IndustriesHub } from './components/IndustriesHub';
+import { AboutPage } from './components/AboutPage';
 import { CaseStudies } from './components/CaseStudies';
 import { PhilosophySection } from './components/PhilosophySection';
-import { ExpertiseDetail } from './components/ExpertiseDetail';
 import { JournalSection } from './components/JournalSection';
+import { ContactPage } from './components/ContactPage';
 import { Footer } from './components/Footer';
 import { CaseStudyModal } from './components/CaseStudyModal';
 import { ConsultationModal } from './components/ConsultationModal';
@@ -16,10 +18,14 @@ export default function App() {
   const [selectedCaseStudy, setSelectedCaseStudy] = useState<CaseStudy | null>(null);
   const [consultationModalOpen, setConsultationModalOpen] = useState(false);
   const [simulatedData, setSimulatedData] = useState<{ revenue?: number; lift?: number }>({});
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+
+  const handleToggleTheme = () => {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  };
 
   const handleNavigate = (section: NavSection) => {
     setActiveSection(section);
-    // Scroll to section element if on overview page or scroll smoothly
     const element = document.getElementById(section);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
@@ -34,8 +40,12 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white selection:bg-orange-500 selection:text-black font-geist">
-      {/* Fixed Sticky Header Navigation */}
+    <div className={`min-h-screen font-geist transition-colors duration-300 ${
+      theme === 'light'
+        ? 'bg-[#F8F9FA] text-neutral-900 selection:bg-orange-500 selection:text-white'
+        : 'bg-[#0A0A0A] text-white selection:bg-orange-500 selection:text-black'
+    }`}>
+      {/* Sticky Top Navigation Bar with Dark/Light Theme Toggle */}
       <Navbar
         activeSection={activeSection}
         onNavigate={handleNavigate}
@@ -43,52 +53,76 @@ export default function App() {
           setSimulatedData({});
           setConsultationModalOpen(true);
         }}
+        theme={theme}
+        onToggleTheme={handleToggleTheme}
       />
 
       {/* Main Page Layout */}
-      <main className="pt-22">
+      <main className="pt-20">
         {/* Hero Section */}
         <div id="overview">
           <Hero
-            onNavigateToCases={() => handleNavigate('case-studies')}
-            onNavigateToExpertise={() => handleNavigate('expertise')}
+            onNavigate={handleNavigate}
             onOpenConsultation={() => setConsultationModalOpen(true)}
+            theme={theme}
           />
         </div>
 
-        {/* Core Capabilities & Services */}
-        <div id="capabilities">
+        {/* 1. Services Hub (16 Performance Services across 5 categories) */}
+        <div id="services">
           <Capabilities
-            onSelectCapability={(id) => handleNavigate('expertise')}
+            onNavigate={handleNavigate}
             onOpenConsultation={() => setConsultationModalOpen(true)}
+            theme={theme}
           />
         </div>
 
-        {/* Case Studies Showcase */}
+        {/* 2. Industries Hub (10 Category Playbooks) */}
+        <div id="industries">
+          <IndustriesHub
+            onNavigate={handleNavigate}
+            onOpenConsultation={() => setConsultationModalOpen(true)}
+            theme={theme}
+          />
+        </div>
+
+        {/* 3. About Section (Leadership, Process, Principles, Comparison) */}
+        <div id="about">
+          <AboutPage
+            onNavigate={handleNavigate}
+            onOpenConsultation={() => setConsultationModalOpen(true)}
+            theme={theme}
+          />
+        </div>
+
+        {/* 4. Case Studies Showcase */}
         <div id="case-studies">
           <CaseStudies
             onSelectCaseStudy={(study) => setSelectedCaseStudy(study)}
             showTitle={true}
+            theme={theme}
           />
         </div>
 
-        {/* Strategic Philosophy & Interactive Growth Engine Simulator */}
-        <div id="philosophy">
+        {/* Interactive Growth Engine & Revenue Lift Simulator (INR / ₹) */}
+        <div id="simulator">
           <PhilosophySection
             onOpenConsultationWithData={handleOpenConsultationWithData}
+            theme={theme}
           />
         </div>
 
-        {/* Expertise Disciplines Deep Dive */}
-        <div id="expertise">
-          <ExpertiseDetail
-            onOpenConsultation={() => setConsultationModalOpen(true)}
+        {/* 5. Insights & Research Papers */}
+        <div id="insights">
+          <JournalSection
+            onNavigate={handleNavigate}
+            theme={theme}
           />
         </div>
 
-        {/* Research & Journal Papers */}
-        <div id="journal">
-          <JournalSection />
+        {/* 6. Contact & Growth Audit Form */}
+        <div id="contact">
+          <ContactPage theme={theme} />
         </div>
       </main>
 
@@ -96,6 +130,7 @@ export default function App() {
       <Footer
         onOpenConsultation={() => setConsultationModalOpen(true)}
         onNavigateTab={(tab) => handleNavigate(tab as NavSection)}
+        theme={theme}
       />
 
       {/* Case Study Detail Modal */}
@@ -103,14 +138,16 @@ export default function App() {
         study={selectedCaseStudy}
         onClose={() => setSelectedCaseStudy(null)}
         onOpenConsultation={() => setConsultationModalOpen(true)}
+        theme={theme}
       />
 
-      {/* Architecture Consultation / Audit Modal */}
+      {/* Strategy Session / Audit Modal */}
       <ConsultationModal
         isOpen={consultationModalOpen}
         onClose={() => setConsultationModalOpen(false)}
         initialRevenue={simulatedData.revenue}
         initialLift={simulatedData.lift}
+        theme={theme}
       />
     </div>
   );
