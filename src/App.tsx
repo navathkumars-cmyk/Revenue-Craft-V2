@@ -1,27 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
-import { Capabilities } from './components/Capabilities';
-import { IndustriesHub } from './components/IndustriesHub';
-import { AboutPage } from './components/AboutPage';
-import { CaseStudies } from './components/CaseStudies';
+import { TickerTapes } from './components/TickerTapes';
+import { AboutSection } from './components/AboutSection';
+import { GrowthEcosystem } from './components/GrowthEcosystem';
+import { ServicesSection } from './components/ServicesSection';
+import { IndustriesSection } from './components/IndustriesSection';
+import { HowWeWorkSection } from './components/HowWeWorkSection';
 import { PhilosophySection } from './components/PhilosophySection';
-import { JournalSection } from './components/JournalSection';
-import { ContactPage } from './components/ContactPage';
+import { WhyUsSection } from './components/WhyUsSection';
+import { AuditCalloutSection } from './components/AuditCalloutSection';
+import { TeamLocationSection } from './components/TeamLocationSection';
+import { ContactSection } from './components/ContactSection';
+import { FinalCTASection } from './components/FinalCTASection';
 import { Footer } from './components/Footer';
-import { CaseStudyModal } from './components/CaseStudyModal';
-import { ConsultationModal } from './components/ConsultationModal';
-import { NavSection, CaseStudy } from './types';
+import { FloatingControls } from './components/FloatingControls';
+import { CustomCursor } from './components/CustomCursor';
+import { AuditModal } from './components/AuditModal';
+import { ThemeSwitcher } from './components/ThemeSwitcher';
+import { NavSection } from './types';
 
 export default function App() {
-  const [activeSection, setActiveSection] = useState<NavSection>('overview');
-  const [selectedCaseStudy, setSelectedCaseStudy] = useState<CaseStudy | null>(null);
-  const [consultationModalOpen, setConsultationModalOpen] = useState(false);
-  const [simulatedData, setSimulatedData] = useState<{ revenue?: number; lift?: number }>({});
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  const [activeSection, setActiveSection] = useState<NavSection>('home');
+  const [auditModalOpen, setAuditModalOpen] = useState(false);
 
-  const handleToggleTheme = () => {
-    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  // Light / Dark mode state management
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('rcd_mode');
+      return saved ? saved === 'dark' : true;
+    }
+    return true;
+  });
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (isDarkMode) {
+      root.classList.remove('light');
+      root.classList.add('dark');
+      localStorage.setItem('rcd_mode', 'dark');
+    } else {
+      root.classList.remove('dark');
+      root.classList.add('light');
+      localStorage.setItem('rcd_mode', 'light');
+    }
+  }, [isDarkMode]);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode((prev) => !prev);
   };
 
   const handleNavigate = (section: NavSection) => {
@@ -34,120 +60,94 @@ export default function App() {
     }
   };
 
-  const handleOpenConsultationWithData = (revenue: number, lift: number) => {
-    setSimulatedData({ revenue, lift });
-    setConsultationModalOpen(true);
-  };
-
   return (
-    <div className={`min-h-screen font-geist transition-colors duration-300 ${
-      theme === 'light'
-        ? 'bg-[#F8F9FA] text-neutral-900 selection:bg-orange-500 selection:text-white'
-        : 'bg-[#0A0A0A] text-white selection:bg-orange-500 selection:text-black'
-    }`}>
-      {/* Sticky Top Navigation Bar with Dark/Light Theme Toggle */}
+    <div className="min-h-screen bg-[#141414] text-[#E2E2E2] font-inter selection:bg-[#FECF05] selection:text-[#141414] relative transition-colors duration-300">
+      {/* 1. Custom Magnetic Cursor */}
+      <CustomCursor />
+
+      {/* 2. Floating Right "GROWTH AUDIT" Tab, WhatsApp Signal & Back to Top */}
+      <FloatingControls onOpenAudit={() => setAuditModalOpen(true)} />
+
+      {/* 2b. Floating Theme Palette & Light/Dark Switcher */}
+      <ThemeSwitcher
+        isDarkMode={isDarkMode}
+        onToggleDarkMode={toggleDarkMode}
+      />
+
+      {/* 3. Top Header with Pill Navigation, Brandmark & Light/Dark Toggle */}
       <Navbar
         activeSection={activeSection}
         onNavigate={handleNavigate}
-        onOpenConsultation={() => {
-          setSimulatedData({});
-          setConsultationModalOpen(true);
-        }}
-        theme={theme}
-        onToggleTheme={handleToggleTheme}
+        onOpenAudit={() => setAuditModalOpen(true)}
+        isDarkMode={isDarkMode}
+        onToggleDarkMode={toggleDarkMode}
       />
 
-      {/* Main Page Layout */}
-      <main className="pt-20">
-        {/* Hero Section */}
-        <div id="overview">
+      {/* Main Single-Page Agency Experience */}
+      <main>
+        {/* Section 1: Hero Cockpit */}
+        <section id="home">
           <Hero
             onNavigate={handleNavigate}
-            onOpenConsultation={() => setConsultationModalOpen(true)}
-            theme={theme}
+            onOpenAudit={() => setAuditModalOpen(true)}
           />
-        </div>
+        </section>
 
-        {/* 1. Services Hub (16 Performance Services across 5 categories) */}
-        <div id="services">
-          <Capabilities
+        {/* Section 2: Signature Dual Angled Ticker Tapes */}
+        <TickerTapes />
+
+        {/* Section 3: About Us */}
+        <section id="about">
+          <AboutSection
             onNavigate={handleNavigate}
-            onOpenConsultation={() => setConsultationModalOpen(true)}
-            theme={theme}
+            onOpenAudit={() => setAuditModalOpen(true)}
           />
-        </div>
+        </section>
 
-        {/* 2. Industries Hub (10 Category Playbooks) */}
-        <div id="industries">
-          <IndustriesHub
-            onNavigate={handleNavigate}
-            onOpenConsultation={() => setConsultationModalOpen(true)}
-            theme={theme}
-          />
-        </div>
+        {/* Section 4: Our Growth Ecosystem */}
+        <GrowthEcosystem />
 
-        {/* 3. About Section (Leadership, Process, Principles, Comparison) */}
-        <div id="about">
-          <AboutPage
-            onNavigate={handleNavigate}
-            onOpenConsultation={() => setConsultationModalOpen(true)}
-            theme={theme}
-          />
-        </div>
+        {/* Section 5: Services */}
+        <ServicesSection onOpenAudit={() => setAuditModalOpen(true)} />
 
-        {/* 4. Case Studies Showcase */}
-        <div id="case-studies">
-          <CaseStudies
-            onSelectCaseStudy={(study) => setSelectedCaseStudy(study)}
-            showTitle={true}
-            theme={theme}
-          />
-        </div>
+        {/* Section 6: Industries We Work With */}
+        <IndustriesSection />
 
-        {/* Interactive Growth Engine & Revenue Lift Simulator (INR / ₹) */}
-        <div id="simulator">
-          <PhilosophySection
-            onOpenConsultationWithData={handleOpenConsultationWithData}
-            theme={theme}
-          />
-        </div>
+        {/* Section 7: How We Work */}
+        <HowWeWorkSection />
 
-        {/* 5. Insights & Research Papers */}
-        <div id="insights">
-          <JournalSection
-            onNavigate={handleNavigate}
-            theme={theme}
-          />
-        </div>
+        {/* Section 8: Performance Philosophy & Metrics */}
+        <PhilosophySection />
 
-        {/* 6. Contact & Growth Audit Form */}
-        <div id="contact">
-          <ContactPage theme={theme} />
-        </div>
+        {/* Section 9: Why Revenue Craft Digital */}
+        <WhyUsSection />
+
+        {/* Section 10: Free Growth Audit Callout */}
+        <AuditCalloutSection onOpenAudit={() => setAuditModalOpen(true)} />
+
+        {/* Section 11: Team & Location */}
+        <TeamLocationSection />
+
+        {/* Section 12: Contact Section */}
+        <ContactSection />
+
+        {/* Section 13: Final CTA */}
+        <FinalCTASection
+          onNavigate={handleNavigate}
+          onOpenAudit={() => setAuditModalOpen(true)}
+        />
       </main>
 
-      {/* Enterprise Footer */}
+      {/* 4. Comprehensive Enterprise Footer */}
       <Footer
-        onOpenConsultation={() => setConsultationModalOpen(true)}
-        onNavigateTab={(tab) => handleNavigate(tab as NavSection)}
-        theme={theme}
+        onNavigate={handleNavigate}
+        onOpenAudit={() => setAuditModalOpen(true)}
       />
 
-      {/* Case Study Detail Modal */}
-      <CaseStudyModal
-        study={selectedCaseStudy}
-        onClose={() => setSelectedCaseStudy(null)}
-        onOpenConsultation={() => setConsultationModalOpen(true)}
-        theme={theme}
-      />
-
-      {/* Strategy Session / Audit Modal */}
-      <ConsultationModal
-        isOpen={consultationModalOpen}
-        onClose={() => setConsultationModalOpen(false)}
-        initialRevenue={simulatedData.revenue}
-        initialLift={simulatedData.lift}
-        theme={theme}
+      {/* 5. Growth Audit Consultation Modal */}
+      <AuditModal
+        isOpen={auditModalOpen}
+        onClose={() => setAuditModalOpen(false)}
       />
     </div>
   );

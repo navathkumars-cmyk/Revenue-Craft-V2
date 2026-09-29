@@ -1,69 +1,408 @@
 @import "tailwindcss";
 
 @layer utilities {
+  .font-inter {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
   .font-syne {
     font-family: 'Syne', sans-serif;
-  }
-  .font-playfair {
-    font-family: 'Playfair Display', serif;
-  }
-  .font-geist {
-    font-family: 'Geist', sans-serif;
   }
   .font-mono-custom {
     font-family: 'JetBrains Mono', monospace;
   }
+}
 
-  .stroke-text-white {
-    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.9);
-    color: transparent;
-  }
-  .stroke-text-[#fff] {
-    -webkit-text-stroke: 1px #ffffff;
-    color: transparent;
-  }
-  .stroke-text-orange {
-    -webkit-text-stroke: 1px #f97316;
-    color: transparent;
-  }
+:root {
+  --theme-color: #FECF05;
+  --theme-contrast: #141414;
+  --theme-glow: rgba(254, 207, 5, 0.35);
+  --bg-black-color: #141414;
+  --bg-card-dark: #1b1b1b;
+  --bg-white-color: #ECECEC;
+  --heading-dark: #4E4E4E;
+  --heading-light: #C1C1C1;
+  --body-light: #E2E2E2;
+  --body-dark: #232323;
 }
 
 body {
-  background-color: #0A0A0A;
-  color: #E5E5E5;
-  font-family: 'Geist', sans-serif;
+  background-color: #141414;
+  color: #E2E2E2;
+  font-family: 'Inter', sans-serif;
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.card-hover {
-  transition: border-color 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+::selection {
+  background-color: var(--theme-color, #FECF05);
+  color: var(--theme-contrast, #141414);
 }
 
-.card-hover:hover {
-  border-color: #f97316;
+/* Wingman Custom Floating Right Button */
+.wm-floating-btn {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--theme-color, #FECF05);
+  color: var(--theme-contrast, #141414);
+  padding: 18px 12px;
+  border: none;
+  font-size: 11px;
+  letter-spacing: 2px;
+  font-weight: 800;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  border-radius: 6px 0 0 6px;
+  z-index: 50;
+  cursor: pointer;
+  box-shadow: -4px 0 20px var(--theme-glow, rgba(254, 207, 5, 0.35));
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.card-hover:hover .card-blur-bg {
-  filter: blur(8px) brightness(0.65);
-  transform: scale(1.05);
+.wm-floating-btn:hover {
+  background: #ffffff;
+  color: #141414;
+  transform: translateY(-50%) translateX(-4px);
+  box-shadow: -6px 0 25px rgba(255, 255, 255, 0.4);
 }
 
-.card-blur-bg {
-  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+/* Floating WhatsApp Button */
+.wm-signal-btn {
+  position: fixed;
+  right: 28px;
+  bottom: 28px;
+  width: 54px;
+  height: 54px;
+  background-color: #25D366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  z-index: 45;
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* Custom scrollbar for ultra dark theme */
+.wm-signal-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 25px rgba(37, 211, 102, 0.6);
+}
+
+/* Back to top button */
+.wm-back-to-top {
+  position: fixed;
+  right: 28px;
+  bottom: 92px;
+  width: 44px;
+  height: 44px;
+  background-color: var(--theme-color, #FECF05);
+  color: var(--theme-contrast, #141414);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 45;
+  box-shadow: 0 4px 16px var(--theme-glow, rgba(254, 207, 5, 0.3));
+  transition: all 0.25s ease;
+}
+
+.wm-back-to-top:hover {
+  background-color: #ffffff;
+  transform: translateY(-3px);
+}
+
+/* Custom Magnetic Cursor */
+.custom-cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background-color: var(--theme-color, #FECF05);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.15s ease;
+}
+
+.custom-cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 44px;
+  height: 44px;
+  border: 1.5px solid var(--theme-color, #FECF05);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s ease, height 0.2s ease, border-color 0.2s ease;
+}
+
+/* Ticker tape animations */
+@keyframes scrollTapeLeft {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes scrollTapeRight {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0%); }
+}
+
+.tape-animate-left {
+  animation: scrollTapeLeft 28s linear infinite;
+}
+
+.tape-animate-right {
+  animation: scrollTapeRight 32s linear infinite;
+}
+
+.tape-container:hover .tape-animate-left,
+.tape-container:hover .tape-animate-right {
+  animation-play-state: paused;
+}
+
+/* Clients marquee animation */
+@keyframes marqueeLeft {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee-clients {
+  animation: marqueeLeft 35s linear infinite;
+}
+
+.animate-marquee-clients:hover {
+  animation-play-state: paused;
+}
+
+/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0A0A0A;
+  background: #141414;
 }
 ::-webkit-scrollbar-thumb {
-  background: #262626;
-  border-radius: 0px;
+  background: #2a2a2a;
+  border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #f97316;
+  background: var(--theme-color, #FECF05);
 }
 
+/* ========================================================
+   GLOBAL HIGH-CONTRAST COLOR BOOST (DARK MODE)
+   Ensures no text is dim, murky, or invisible against dark cards
+   ======================================================== */
+html:not(.light) .text-\[\#717171\],
+html.dark .text-\[\#717171\] {
+  color: #CBD5E1 !important; /* bright, legible slate */
+}
+
+html:not(.light) .text-\[\#8E8E8E\],
+html.dark .text-\[\#8E8E8E\] {
+  color: #D1D5DB !important; /* bright silver */
+}
+
+html:not(.light) .text-\[\#A0A0A0\],
+html.dark .text-\[\#A0A0A0\] {
+  color: #E2E8F0 !important; /* crisp clear silver */
+}
+
+html:not(.light) .text-\[\#C1C1C1\],
+html.dark .text-\[\#C1C1C1\] {
+  color: #F1F5F9 !important; /* high-contrast light text */
+}
+
+html:not(.light) input::placeholder,
+html:not(.light) textarea::placeholder {
+  color: #94A3B8 !important; /* clear readable placeholder */
+}
+
+/* ========================================================
+   LIGHT MODE OVERRIDES
+   ======================================================== */
+html.light,
+html.light body {
+  background-color: #F8F9FA !important;
+  color: #1E293B !important;
+}
+
+html.light main,
+html.light section:not(.dark-surface) {
+  background-color: #F8F9FA !important;
+}
+
+html.light header {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+  border-bottom-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+html.light nav.hidden.lg\:flex {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06) !important;
+}
+
+html.light nav.hidden.lg\:flex button {
+  color: #475569;
+}
+
+html.light nav.hidden.lg\:flex button:hover {
+  color: #0F172A;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+/* Light mode text colors for standard surfaces */
+html.light :not(.dark-surface) > .text-white,
+html.light :not(.dark-surface) .text-white:not(.dark-surface *):not(.keep-white) {
+  color: #0F172A;
+}
+
+html.light :not(.dark-surface) .text-\[\#C1C1C1\],
+html.light :not(.dark-surface) .text-\[\#E2E2E2\] {
+  color: #334155;
+}
+
+html.light :not(.dark-surface) .text-\[\#A0A0A0\],
+html.light :not(.dark-surface) .text-\[\#8E8E8E\],
+html.light :not(.dark-surface) .text-\[\#717171\] {
+  color: #475569;
+}
+
+/* Boost visibility of yellow text on white backgrounds so it never washes out */
+html.light :not(.dark-surface):not(.bg-\[\#FECF05\]) > .text-\[\#FECF05\],
+html.light :not(.dark-surface):not(.bg-\[\#FECF05\]) span.text-\[\#FECF05\]:not(.dark-surface *):not(.keep-yellow) {
+  color: #D97706; /* Rich Amber-600 with 5.5:1 contrast against white */
+}
+
+/* Standard card surfaces in light mode */
+html.light .bg-\[\#141414\]:not(.dark-surface),
+html.light .bg-\[\#111111\]:not(.dark-surface),
+html.light .bg-\[\#0E0E0E\]:not(.dark-surface),
+html.light .bg-\[\#0D0D0D\]:not(.dark-surface) {
+  background-color: #F8FAFC !important;
+}
+
+html.light .bg-\[\#1C1C1C\]:not(.dark-surface),
+html.light .bg-\[\#1A1A1A\]:not(.dark-surface),
+html.light .bg-\[\#181818\]:not(.dark-surface),
+html.light .bg-\[\#222222\]:not(.dark-surface),
+html.light .bg-\[\#242424\]:not(.dark-surface) {
+  background-color: #FFFFFF !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05), 0 4px 10px -2px rgba(0, 0, 0, 0.02) !important;
+}
+
+html.light .border-white\/5:not(.dark-surface),
+html.light .border-white\/10:not(.dark-surface),
+html.light .border-white\/15:not(.dark-surface),
+html.light .border-white\/20:not(.dark-surface) {
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+html.light .bg-white\/5:not(.dark-surface),
+html.light .bg-white\/10:not(.dark-surface) {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+}
+
+html.light .bg-white\/15:not(.dark-surface) {
+  background-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Footer in light mode */
+html.light footer {
+  background-color: #F1F5F9 !important;
+  border-top-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Form inputs & dropdowns in light mode */
+html.light input,
+html.light select,
+html.light textarea {
+  background-color: #F1F5F9 !important;
+  color: #0F172A !important;
+  border-color: #CBD5E1 !important;
+}
+
+html.light option {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+}
+
+html.light input::placeholder,
+html.light textarea::placeholder {
+  color: #64748B !important;
+}
+
+/* ========================================================
+   PROTECTED DARK SURFACES (.dark-surface)
+   Image overlays, video modals, Tape 2, dark pills ALWAYS have white text!
+   ======================================================== */
+.dark-surface,
+.dark-surface *,
+html.light .dark-surface,
+html.light .dark-surface * {
+  color-scheme: dark;
+}
+
+.dark-surface .text-white,
+html.light .dark-surface .text-white,
+.dark-surface h3,
+html.light .dark-surface h3,
+.dark-surface h4,
+html.light .dark-surface h4 {
+  color: #FFFFFF !important;
+}
+
+.dark-surface p,
+html.light .dark-surface p,
+.dark-surface .text-muted,
+html.light .dark-surface .text-muted,
+.dark-surface .text-\[\#C1C1C1\],
+html.light .dark-surface .text-\[\#C1C1C1\],
+.dark-surface .text-\[\#E2E2E2\],
+html.light .dark-surface .text-\[\#E2E2E2\] {
+  color: #E2E8F0 !important;
+}
+
+.dark-surface .text-\[\#A0A0A0\],
+html.light .dark-surface .text-\[\#A0A0A0\],
+.dark-surface .text-\[\#8E8E8E\],
+html.light .dark-surface .text-\[\#8E8E8E\],
+.dark-surface .text-\[\#717171\],
+html.light .dark-surface .text-\[\#717171\] {
+  color: #CBD5E1 !important;
+}
+
+.dark-surface .text-\[\#FECF05\],
+html.light .dark-surface .text-\[\#FECF05\] {
+  color: var(--theme-color, #FECF05) !important;
+}
+
+/* Gradient fade masks in light mode */
+html.light .client-marquee-mask-left {
+  background: linear-gradient(to right, #F8FAFC, transparent) !important;
+}
+
+html.light .client-marquee-mask-right {
+  background: linear-gradient(to left, #F8FAFC, transparent) !important;
+}
+
+html.light .hero-scrim-gradient {
+  background: linear-gradient(to top, #F8FAFC, rgba(248, 250, 252, 0.8), transparent) !important;
+}
+
+html.light ::-webkit-scrollbar-track {
+  background: #F1F5F9;
+}
+
+html.light ::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+}

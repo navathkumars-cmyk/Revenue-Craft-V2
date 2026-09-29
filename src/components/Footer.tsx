@@ -1,139 +1,197 @@
 import React from 'react';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUp, ArrowUpRight, ShieldCheck, Mail, Phone, MapPin } from 'lucide-react';
+import { NavSection } from '../types';
 
 interface FooterProps {
-  onOpenConsultation: () => void;
-  onNavigateTab: (tab: string) => void;
-  theme?: 'dark' | 'light';
+  onNavigate: (section: NavSection) => void;
+  onOpenAudit: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onOpenConsultation, onNavigateTab, theme = 'dark' }) => {
-  const isLight = theme === 'light';
+export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenAudit }) => {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
-    <footer className={`border-t pt-20 pb-12 transition-colors ${
-      isLight ? 'bg-[#F8F9FA] border-neutral-200 text-neutral-900' : 'bg-[#0A0A0A] border-white/10 text-white'
-    }`}>
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-12 space-y-16">
-        {/* Top Banner CTA */}
-        <div className={`border p-8 sm:p-14 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8 shadow-2xl ${
-          isLight ? 'bg-white border-orange-500 text-neutral-900' : 'bg-[#111111] border-orange-500 text-white'
-        }`}>
-          <div className="space-y-3 max-w-2xl">
-            <span className="font-mono-custom text-xs uppercase tracking-[0.4em] text-orange-500 font-bold block">
-              ENTERPRISE ENGAGEMENT
-            </span>
-            <h2 className={`font-syne text-3xl sm:text-5xl font-black uppercase tracking-tight ${
-              isLight ? 'text-black' : 'text-white'
-            }`}>
-              READY TO SCALE YOUR REVENUE ENGINE<span className="text-orange-500">?</span>
-            </h2>
-            <p className={`font-geist text-sm sm:text-base ${isLight ? 'text-neutral-600' : 'text-white/60'}`}>
-              Deploy our quantitative growth architecture to unlock predictable ARR expansion and lower CAC.
+    <footer className="bg-[#0E0E0E] text-white border-t border-white/10 pt-16 pb-12 transition-colors">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Top Brand Banner */}
+        <div className="pb-12 border-b border-white/10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-[#FECF05] flex items-center justify-center text-[#141414] font-black shrink-0">
+              <svg
+                viewBox="0 0 28 28"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-6 h-6 stroke-[#141414]"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M7 6v16M7 6h8a4 4 0 0 1 0 8H7M15 14l6 8" />
+                <path d="M19 6l5 0m0 0l0 5m0-5l-7 7" stroke="#141414" strokeWidth="2.2" />
+              </svg>
+            </div>
+            <div>
+              <span className="text-xl font-black font-syne text-white tracking-tight flex items-center gap-1">
+                REVENUE CRAFT DIGITAL
+              </span>
+              <span className="text-xs font-bold text-[#FECF05] uppercase tracking-wider block mt-0.5">
+                Scale Your Brand. Grow Your Revenue.
+              </span>
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <p className="text-xs text-[#A0A0A0] max-w-md font-light">
+              AI-powered performance marketing for ambitious B2B, B2C, D2C and eCommerce businesses.
             </p>
+            <button
+              onClick={onOpenAudit}
+              className="px-5 py-2.5 rounded-full bg-[#FECF05] text-[#141414] text-xs font-extrabold uppercase tracking-wider hover:bg-white transition-all shadow-md shrink-0 cursor-pointer"
+            >
+              Get Free Growth Audit
+            </button>
+          </div>
+        </div>
+
+        {/* 6-Column Category Navigation */}
+        <div className="py-14 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 text-xs">
+          {/* Col 1: Performance */}
+          <div>
+            <h4 className="font-black uppercase tracking-widest text-[#FECF05] mb-4 font-syne">
+              Performance
+            </h4>
+            <ul className="space-y-2 text-[#A0A0A0]">
+              <li>Performance Marketing</li>
+              <li>Google Ads</li>
+              <li>Meta Ads</li>
+              <li>LinkedIn Ads</li>
+              <li>YouTube Ads</li>
+              <li>B2B Marketing</li>
+              <li>B2C Marketing</li>
+              <li>eCommerce Marketing</li>
+              <li>Lead Generation</li>
+            </ul>
+          </div>
+
+          {/* Col 2: Digital */}
+          <div>
+            <h4 className="font-black uppercase tracking-widest text-[#FECF05] mb-4 font-syne">
+              Digital
+            </h4>
+            <ul className="space-y-2 text-[#A0A0A0]">
+              <li>SEO</li>
+              <li>Social Media Marketing</li>
+              <li>Content Marketing</li>
+              <li>Influencer Marketing</li>
+              <li>Email Marketing</li>
+              <li>WhatsApp Marketing</li>
+              <li>Quick Commerce</li>
+              <li>Marketplace Marketing</li>
+            </ul>
+          </div>
+
+          {/* Col 3: Creative */}
+          <div>
+            <h4 className="font-black uppercase tracking-widest text-[#FECF05] mb-4 font-syne">
+              Creative
+            </h4>
+            <ul className="space-y-2 text-[#A0A0A0]">
+              <li>Brand Strategy</li>
+              <li>Brand Identity</li>
+              <li>Logo Design</li>
+              <li>Graphic Design</li>
+              <li>Advertising Creative</li>
+              <li>Social Media Design</li>
+              <li>Video Marketing</li>
+              <li>Reels & Short-Form</li>
+            </ul>
+          </div>
+
+          {/* Col 4: Technology */}
+          <div>
+            <h4 className="font-black uppercase tracking-widest text-[#FECF05] mb-4 font-syne">
+              Technology
+            </h4>
+            <ul className="space-y-2 text-[#A0A0A0]">
+              <li>Web Design & Dev</li>
+              <li>Landing Pages</li>
+              <li>Analytics Setup</li>
+              <li>Conversion Tracking</li>
+              <li>CRM Integration</li>
+              <li>Marketing Automation</li>
+              <li>AI-Powered Marketing</li>
+              <li>CRO Optimization</li>
+            </ul>
+          </div>
+
+          {/* Col 5: Strategy */}
+          <div>
+            <h4 className="font-black uppercase tracking-widest text-[#FECF05] mb-4 font-syne">
+              Strategy
+            </h4>
+            <ul className="space-y-2 text-[#A0A0A0]">
+              <li>Marketing Strategy</li>
+              <li>Media Planning</li>
+              <li>Media Buying</li>
+              <li>Campaign Audits</li>
+              <li>Competitor Analysis</li>
+              <li>Growth Consulting</li>
+            </ul>
+          </div>
+
+          {/* Col 6: Company & Legal */}
+          <div>
+            <h4 className="font-black uppercase tracking-widest text-[#FECF05] mb-4 font-syne">
+              Company
+            </h4>
+            <ul className="space-y-2 text-[#A0A0A0] mb-6">
+              <li>
+                <button onClick={() => onNavigate('about')} className="hover:text-[#FECF05] cursor-pointer">
+                  About Us
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onNavigate('services')} className="hover:text-[#FECF05] cursor-pointer">
+                  Our Work
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onNavigate('industries')} className="hover:text-[#FECF05] cursor-pointer">
+                  Industries
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onNavigate('contact')} className="hover:text-[#FECF05] cursor-pointer">
+                  Contact Us
+                </button>
+              </li>
+            </ul>
+
+            <h4 className="font-black uppercase tracking-widest text-[#FECF05] mb-2 font-syne">
+              Legal
+            </h4>
+            <ul className="space-y-1.5 text-[#8E8E8E]">
+              <li>Privacy Policy</li>
+              <li>Terms & Conditions</li>
+              <li>Cookie Policy</li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Bottom Copyright & Back to Top */}
+        <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#8E8E8E]">
+          <div>
+            © {new Date().getFullYear()} Revenue Craft Digital. All rights reserved. Hyderabad, India.
           </div>
           <button
-            onClick={onOpenConsultation}
-            className={`font-mono-custom text-xs uppercase tracking-widest font-black px-8 py-4 transition-colors shrink-0 flex items-center space-x-2 cursor-pointer ${
-              isLight ? 'bg-black text-white hover:bg-orange-500' : 'bg-white text-black hover:bg-orange-500 hover:text-white'
-            }`}
+            onClick={scrollToTop}
+            className="flex items-center gap-1.5 text-white hover:text-[#FECF05] transition-colors cursor-pointer"
           >
-            <span>BOOK ARCHITECTURE AUDIT</span>
-            <ArrowUpRight className="w-4 h-4" />
+            <span>Back to top</span>
+            <ArrowUp className="w-3.5 h-3.5 text-[#FECF05]" />
           </button>
-        </div>
-
-        {/* Links Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 pt-8">
-          <div className="space-y-4">
-            <div className="font-syne text-2xl font-black tracking-wider uppercase text-white">
-              REVENUE CRAFT <span className="text-orange-500">DIGITAL</span>
-            </div>
-            <p className="font-geist text-xs text-white/50 leading-relaxed max-w-xs">
-              Algorithmic performance marketing, conversion engineering, and enterprise RevOps architecture for high-growth DTC and B2B leaders.
-            </p>
-          </div>
-
-          <div className="space-y-3">
-            <span className="font-mono-custom text-xs text-orange-500 uppercase font-bold block">
-              DISCIPLINE NAVIGATION
-            </span>
-            <ul className="space-y-2 font-geist text-xs text-white/70">
-              <li>
-                <button onClick={() => onNavigateTab('overview')} className="hover:text-orange-500 transition-colors uppercase cursor-pointer">
-                  Overview
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onNavigateTab('capabilities')} className="hover:text-orange-500 transition-colors uppercase cursor-pointer">
-                  Capabilities & Services
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onNavigateTab('cases')} className="hover:text-orange-500 transition-colors uppercase cursor-pointer">
-                  Case Studies & Metrics
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onNavigateTab('philosophy')} className="hover:text-orange-500 transition-colors uppercase cursor-pointer">
-                  Revenue Simulator
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onNavigateTab('expertise')} className="hover:text-orange-500 transition-colors uppercase cursor-pointer">
-                  Architectural Pillars
-                </button>
-              </li>
-            </ul>
-          </div>
-
-          <div className="space-y-3">
-            <span className="font-mono-custom text-xs text-orange-500 uppercase font-bold block">
-              RESEARCH & INSIGHTS
-            </span>
-            <ul className="space-y-2 font-geist text-xs text-white/70">
-              <li>
-                <button onClick={() => onNavigateTab('journal')} className="hover:text-orange-500 transition-colors uppercase cursor-pointer">
-                  Algorithmic Bidding Teardown
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onNavigateTab('journal')} className="hover:text-orange-500 transition-colors uppercase cursor-pointer">
-                  RevOps Data Architecture Whitepaper
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onNavigateTab('journal')} className="hover:text-orange-500 transition-colors uppercase cursor-pointer">
-                  Predictive LTV Optimization Framework
-                </button>
-              </li>
-            </ul>
-          </div>
-
-          <div className="space-y-3">
-            <span className="font-mono-custom text-xs text-orange-500 uppercase font-bold block">
-              HEADQUARTERS & CONTACT
-            </span>
-            <div className="font-geist text-xs text-white/60 space-y-1">
-              <p className="text-white font-bold">RevenueCraft Digital Architecture LLC</p>
-              <p>Austin, TX • New York, NY • San Francisco, CA</p>
-              <p className="pt-2 text-orange-500 font-mono-custom font-bold">growth@revenuecraftdigital.com</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom Bar */}
-        <div className="pt-12 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center text-xs font-mono-custom text-white/40 gap-4">
-          <div>
-            © {new Date().getFullYear()} REVENUE CRAFT DIGITAL. ALL RIGHTS RESERVED.
-          </div>
-          <div className="flex space-x-6">
-            <span className="hover:text-white cursor-pointer">PRIVACY POLICY</span>
-            <span>•</span>
-            <span className="hover:text-white cursor-pointer font-bold">TERMS OF ENGAGEMENT</span>
-            <span>•</span>
-            <span className="hover:text-white cursor-pointer">SECURITY DISCLOSURES</span>
-          </div>
         </div>
       </div>
     </footer>

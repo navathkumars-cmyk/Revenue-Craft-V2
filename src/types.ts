@@ -1,104 +1,150 @@
 export type NavSection = 
-  | 'overview' 
-  | 'services' 
-  | 'industries' 
-  | 'case-studies' 
+  | 'home' 
   | 'about' 
-  | 'insights' 
+  | 'services' 
+  | 'ecosystem'
+  | 'industries' 
+  | 'how-we-work' 
+  | 'why-us' 
+  | 'audit' 
+  | 'team-location'
   | 'contact';
 
-export interface ServiceItem {
+export interface ServiceDetail {
   id: string;
-  category: 'Paid Media' | 'Tracking & Analytics' | 'Conversion & CRO' | 'Automation & AI' | 'Video & Brand Production';
-  title: string;
-  url: string;
-  metaTitle: string;
-  metaDescription: string;
-  h1: string;
-  shortDesc: string;
-  fullDesc: string;
-  whatYouGet: string[];
-  ourApproach: string[];
-  faq: { q: string; a: string }[];
+  category: string;
+  headline: string;
+  subheadline: string;
+  description: string;
+  subservices: {
+    name: string;
+    description?: string;
+    items?: string[];
+  }[];
+  analysisChecklist?: string[];
   ctaText: string;
 }
 
 export interface IndustryItem {
   id: string;
+  title?: string;
+  name?: string;
+  desc?: string;
+  shortDesc?: string;
+  url?: string;
+  metaTitle?: string;
+  metaDescription?: string;
+  h1?: string;
+  challenges?: string[];
+  relevantServices?: string[];
+  ctaText?: string;
+  iconName?: string;
+}
+
+export interface HowWeWorkStep {
+  step: string;
   title: string;
-  url: string;
-  metaTitle: string;
-  metaDescription: string;
-  h1: string;
-  shortDesc: string;
-  challenges: string[];
-  relevantServices: string[];
-  ctaText: string;
+  desc: string[];
 }
 
-export interface TeamMember {
-  name: string;
-  role: string;
-  bio: string;
-  image?: string;
-}
-
-export interface CaseStudy {
-  id: string;
+export interface ValuePillar {
   title: string;
-  client: string;
-  sector: 'SaaS' | 'D2C / E-commerce' | 'Healthcare' | 'Local / Franchise' | 'Real Estate' | 'B2B';
-  summary: string;
-  description: string;
-  keyMetricLabel: string;
-  keyMetricValue: string;
-  keyMetricSubtext: string;
-  bgImage: string;
-  isFeatured?: boolean;
-  challenge: string;
-  solution: string;
-  results: {
-    label: string;
-    value: string;
-    change: string;
-  }[];
-  quote?: {
-    text: string;
-    author: string;
-    title: string;
-  };
+  desc: string;
 }
 
-export interface JournalArticle {
-  id: string;
-  category: string;
-  date: string;
-  readTime: string;
-  title: string;
-  excerpt: string;
-  content: string[];
-  author: {
-    name: string;
-    role: string;
-  };
-}
-
-export interface FAQItem {
-  question: string;
-  answer: string;
-}
-
-export interface ComparisonPoint {
-  withoutPartner: string;
-  withRevenueCraft: string;
+export interface ContactFormData {
+  fullName: string;
+  companyName: string;
+  businessEmail: string;
+  phone: string;
+  website: string;
+  businessType: string;
+  serviceNeeded: string;
+  monthlyBudget: string;
+  growthGoal: string;
 }
 
 export interface ConsultationFormData {
   fullName: string;
   workEmail: string;
   companyName: string;
+  phone: string;
+  serviceCategory: string;
   monthlyBudget: string;
   goals: string;
-  preferredDate?: string;
-  notes?: string;
+}
+
+export interface ServiceItem {
+  id: string;
+  category: string;
+  title: string;
+  shortDesc: string;
+  tags?: string[];
+  deliverables?: string[];
+  image?: string;
+  metrics?: string;
+  url?: string;
+  metaTitle?: string;
+  metaDescription?: string;
+  h1?: string;
+  fullDesc?: string;
+  whatYouGet?: string[];
+  ourApproach?: string[];
+  faq?: { q: string; a: string }[];
+  ctaText?: string;
+}
+
+export interface CaseStudy {
+  id: string;
+  title: string;
+  client: string;
+  sector: string;
+  summary: string;
+  description?: string;
+  challenge: string;
+  solution: string;
+  keyMetricLabel: string;
+  keyMetricValue: string;
+  secondaryMetricLabel?: string;
+  secondaryMetricValue?: string;
+  image?: string;
+  tags?: string[];
+  url?: string;
+  resultsBreakdown?: { label: string; value: string }[];
+}
+
+export interface JournalArticle {
+  id: string;
+  title: string;
+  slug?: string;
+  excerpt: string;
+  date: string;
+  category: string;
+  readTime?: string;
+  author?: string;
+  authorRole?: string;
+  image?: string;
+  tags?: string[];
+  content?: string[];
+}
+
+export interface TeamMember {
+  id: string;
+  name: string;
+  role: string;
+  bio: string;
+  image?: string;
+  speciality?: string;
+  linkedinUrl?: string;
+}
+
+export interface FAQItem {
+  q: string;
+  a: string;
+}
+
+export interface ComparisonPoint {
+  metric: string;
+  revenueCraft: string;
+  traditional: string;
 }

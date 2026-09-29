@@ -1,245 +1,123 @@
-import React, { useState } from 'react';
-import { ABOUT_HOME_CONTENT } from '../data/mockData';
-import { Calculator, Sparkles, ArrowRight, ShieldCheck } from 'lucide-react';
+import React from 'react';
+import { HelpCircle, BarChart3, TrendingUp, Layers, CheckCircle2 } from 'lucide-react';
+import { RevealOnScroll } from './RevealOnScroll';
 
-interface PhilosophySectionProps {
-  onOpenConsultationWithData?: (revenue: number, lift: number) => void;
-  theme?: 'dark' | 'light';
-}
+export const PhilosophySection: React.FC = () => {
+  const fourQuestions = [
+    {
+      q: 'Where is the money being spent?',
+      a: 'Every single budget allocation should have a clear, documented commercial purpose and intent hypothesis.',
+    },
+    {
+      q: 'What did we generate?',
+      a: 'Tracking leads, sales, pipeline, or verified actions connected directly to customer acquisition.',
+    },
+    {
+      q: 'What was the quality?',
+      a: 'Cheap vanity conversions do not create profitable businesses. We trace lead quality through to closed revenue.',
+    },
+    {
+      q: 'What should we do next?',
+      a: 'Marketing telemetry should never gather dust in reports; it must drive aggressive, intelligent capital reallocation.',
+    },
+  ];
 
-export const PhilosophySection: React.FC<PhilosophySectionProps> = ({
-  onOpenConsultationWithData,
-  theme = 'dark'
-}) => {
-  const isLight = theme === 'light';
-
-  // Simulator State in INR (Crores / Lakhs)
-  const [currentRevenue, setCurrentRevenue] = useState<number>(25); // ₹ Crores ARR
-  const [adSpend, setAdSpend] = useState<number>(30); // ₹ Lakhs / month
-  const [salesCycleDays, setSalesCycleDays] = useState<number>(90); // Days
-
-  // Calculated metrics
-  const estimatedLiftPercent = 35 + (currentRevenue > 50 ? 15 : 10);
-  const estimatedLiftDollar = (currentRevenue * (estimatedLiftPercent / 100)).toFixed(1);
-  const estimatedCACReduction = Math.round(adSpend * 12 * 0.32); // ₹ Lakhs annual savings
-  const projectedDays = Math.round(salesCycleDays * 0.45);
+  const metricCategories = [
+    {
+      title: 'Performance Metrics',
+      items: ['Spend', 'Impressions', 'Clicks', 'CTR', 'CPC', 'Conversions'],
+    },
+    {
+      title: 'Acquisition Metrics',
+      items: ['CPL', 'CPA', 'CAC', 'Conversion Rate', 'Cost Per Purchase'],
+    },
+    {
+      title: 'Quality Metrics',
+      items: ['Qualified Leads', 'Sales Meetings', 'Opportunities', 'Closed Deals'],
+    },
+    {
+      title: 'Business Metrics',
+      items: ['Revenue', 'ROAS', 'Pipeline Value', 'Customer Acquisition Cost'],
+    },
+  ];
 
   return (
-    <section id="simulator" className={`max-w-[1440px] mx-auto px-6 lg:px-12 py-24 border-t ${
-      isLight ? 'border-neutral-200' : 'border-white/10'
-    }`}>
-      {/* Header */}
-      <div className="max-w-3xl mb-16">
-        <span className="block font-mono-custom text-xs uppercase tracking-[0.4em] text-orange-500 font-bold mb-3">
-          MEASUREMENT-FIRST GROWTH
-        </span>
-        <h2 className={`font-syne text-4xl sm:text-5xl md:text-6xl font-black uppercase tracking-tight mb-6 ${
-          isLight ? 'text-black' : 'text-white'
-        }`}>
-          REVENUE LIFT ENGINE<span className="text-orange-500">.</span>
-        </h2>
-        <p className={`font-geist text-base sm:text-lg leading-relaxed ${
-          isLight ? 'text-neutral-600' : 'text-white/60'
-        }`}>
-          Growth is an engineering discipline. We reject generic templates, vanity metrics, and isolated media silos in favor of synchronized, full-funnel revenue engines.
-        </p>
-      </div>
-
-      {/* 4 Tenets Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-24">
-        {ABOUT_HOME_CONTENT.guidingPrinciples.map((tenet, idx) => (
-          <div
-            key={idx}
-            className={`p-6 relative group hover:border-orange-500 transition-colors shadow-xl border ${
-              isLight
-                ? 'bg-white border-neutral-200 text-neutral-900'
-                : 'bg-[#111111] border-white/10 text-white'
-            }`}
-          >
-            <span className="font-syne text-3xl font-black text-orange-500 block mb-3">
-              0{idx + 1}
-            </span>
-            <ShieldCheck className="w-5 h-5 text-orange-500 mb-3" />
-            <h3 className={`font-syne text-lg font-black uppercase tracking-tight mb-2 ${
-              isLight ? 'text-black' : 'text-white'
-            }`}>
-              {tenet.title}
-            </h3>
-            <p className={`font-geist text-xs leading-relaxed ${
-              isLight ? 'text-neutral-600' : 'text-white/60'
-            }`}>
-              {tenet.desc}
+    <section className="py-24 bg-[#111111] text-white border-t border-white/5 relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <RevealOnScroll direction="up" duration={800}>
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FECF05]/10 border border-[#FECF05]/20 text-[#FECF05] text-xs font-bold uppercase tracking-widest mb-4">
+              <span>OUR PERFORMANCE PHILOSOPHY</span>
+            </div>
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black font-syne tracking-tight mb-4">
+              Revenue First. <span className="text-[#FECF05]">Data Always</span>.
+            </h2>
+            <p className="text-base sm:text-lg text-[#C1C1C1] leading-relaxed font-light">
+              Performance marketing should answer four foundational questions before any scale is unlocked.
             </p>
           </div>
-        ))}
-      </div>
+        </RevealOnScroll>
 
-      {/* Interactive Growth Engine & Revenue Lift Simulator */}
-      <div className={`p-8 sm:p-12 relative overflow-hidden shadow-2xl border border-orange-500 ${
-        isLight ? 'bg-white text-neutral-900' : 'bg-[#111111] text-white'
-      }`}>
-        <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
-          <Calculator className="w-64 h-64 text-orange-500" />
+        {/* 4 Questions Bento Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-20">
+          {fourQuestions.map((item, idx) => (
+            <RevealOnScroll
+              key={item.q}
+              direction="up"
+              duration={700}
+              delay={idx * 80}
+            >
+              <div className="p-6 sm:p-8 rounded-2xl bg-[#181818] border border-white/10 hover:border-[#FECF05] transition-all h-full shadow-lg">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="w-8 h-8 rounded-lg bg-[#FECF05]/20 text-[#FECF05] flex items-center justify-center font-bold text-xs font-mono-custom">
+                    0{idx + 1}
+                  </span>
+                  <h3 className="text-lg sm:text-xl font-bold font-syne text-white">
+                    {item.q}
+                  </h3>
+                </div>
+                <p className="text-sm text-[#A0A0A0] leading-relaxed font-light pl-11">
+                  {item.a}
+                </p>
+              </div>
+            </RevealOnScroll>
+          ))}
         </div>
 
-        <div className="relative z-10 space-y-8">
-          <div className="flex items-center space-x-3">
-            <Sparkles className="w-5 h-5 text-orange-500" />
-            <span className="font-mono-custom text-xs uppercase tracking-[0.4em] text-orange-500 font-bold">
-              ENTERPRISE SIMULATOR (INR / ₹)
-            </span>
-          </div>
-
-          <div>
-            <h3 className={`font-syne text-3xl sm:text-4xl font-black uppercase tracking-tight mb-2 ${
-              isLight ? 'text-black' : 'text-white'
-            }`}>
-              ESTIMATE REVENUE LIFT POTENTIAL<span className="text-orange-500">.</span>
-            </h3>
-            <p className={`font-geist text-sm max-w-xl ${
-              isLight ? 'text-neutral-600' : 'text-white/60'
-            }`}>
-              Adjust baseline metrics to model projected ARR expansion and acquisition cost efficiency in INR (₹) under our growth architecture.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Left Controls */}
-            <div className="lg:col-span-7 space-y-6">
-              {/* Slider 1: Annual Revenue */}
-              <div className="space-y-2">
-                <div className="flex justify-between font-mono-custom text-xs">
-                  <span className={isLight ? 'text-neutral-600 font-medium' : 'text-white/60'}>
-                    Current Annual Revenue (ARR)
-                  </span>
-                  <span className="text-orange-500 font-black">₹{currentRevenue} Crores / year</span>
-                </div>
-                <input
-                  type="range"
-                  min={2}
-                  max={200}
-                  step={2}
-                  value={currentRevenue}
-                  onChange={(e) => setCurrentRevenue(Number(e.target.value))}
-                  className={`w-full accent-orange-500 h-2 cursor-pointer ${
-                    isLight ? 'bg-neutral-200' : 'bg-[#0A0A0A]'
-                  }`}
-                />
-              </div>
-
-              {/* Slider 2: Monthly Media Spend */}
-              <div className="space-y-2">
-                <div className="flex justify-between font-mono-custom text-xs">
-                  <span className={isLight ? 'text-neutral-600 font-medium' : 'text-white/60'}>
-                    Monthly Media / Growth Spend
-                  </span>
-                  <span className="text-orange-500 font-black">₹{adSpend} Lakhs / month</span>
-                </div>
-                <input
-                  type="range"
-                  min={2}
-                  max={150}
-                  step={2}
-                  value={adSpend}
-                  onChange={(e) => setAdSpend(Number(e.target.value))}
-                  className={`w-full accent-orange-500 h-2 cursor-pointer ${
-                    isLight ? 'bg-neutral-200' : 'bg-[#0A0A0A]'
-                  }`}
-                />
-              </div>
-
-              {/* Slider 3: Sales Cycle */}
-              <div className="space-y-2">
-                <div className="flex justify-between font-mono-custom text-xs">
-                  <span className={isLight ? 'text-neutral-600 font-medium' : 'text-white/60'}>
-                    Average Sales Cycle Duration
-                  </span>
-                  <span className="text-orange-500 font-black">{salesCycleDays} Days</span>
-                </div>
-                <input
-                  type="range"
-                  min={14}
-                  max={180}
-                  step={2}
-                  value={salesCycleDays}
-                  onChange={(e) => setSalesCycleDays(Number(e.target.value))}
-                  className={`w-full accent-orange-500 h-2 cursor-pointer ${
-                    isLight ? 'bg-neutral-200' : 'bg-[#0A0A0A]'
-                  }`}
-                />
-              </div>
-            </div>
-
-            {/* Right Output Box */}
-            <div className={`lg:col-span-5 p-6 space-y-6 border ${
-              isLight ? 'bg-neutral-50 border-neutral-300' : 'bg-[#0A0A0A] border-white/20'
-            }`}>
-              <span className={`font-mono-custom text-[10px] uppercase tracking-widest font-bold block border-b pb-2 ${
-                isLight ? 'text-neutral-500 border-neutral-200' : 'text-white/40 border-white/10'
-              }`}>
-                PROJECTED 12-MONTH ARCHITECTURE LIFT (INR / ₹)
+        {/* Metrics That Matter Grid */}
+        <RevealOnScroll direction="up" duration={800}>
+          <div className="p-8 sm:p-12 rounded-3xl bg-[#181818] border border-white/10">
+            <div className="text-center max-w-2xl mx-auto mb-10">
+              <span className="text-xs font-black uppercase tracking-widest text-[#FECF05] block mb-2">
+                MEASUREMENT FRAMEWORK
               </span>
+              <h3 className="text-2xl sm:text-3xl font-black font-syne text-white">
+                Metrics That Matter
+              </h3>
+              <p className="text-xs sm:text-sm text-[#A0A0A0] mt-1 font-light">
+                We focus on the metrics relevant to each business model.
+              </p>
+            </div>
 
-              <div>
-                <span className={`font-geist text-xs block ${
-                  isLight ? 'text-neutral-600' : 'text-white/60'
-                }`}>
-                  Additional Net ARR Growth
-                </span>
-                <span className="font-syne text-4xl sm:text-5xl font-black text-orange-500">
-                  +₹{estimatedLiftDollar} Cr
-                </span>
-                <span className="font-mono-custom text-xs text-orange-500 font-bold block mt-1">
-                  (~{estimatedLiftPercent}% ARR Increase)
-                </span>
-              </div>
-
-              <div className={`grid grid-cols-2 gap-4 pt-4 border-t ${
-                isLight ? 'border-neutral-200' : 'border-white/10'
-              }`}>
-                <div>
-                  <span className={`font-geist text-[11px] block ${
-                    isLight ? 'text-neutral-600' : 'text-white/60'
-                  }`}>
-                    Annual CAC Savings
-                  </span>
-                  <span className={`font-mono-custom text-lg font-black ${
-                    isLight ? 'text-black' : 'text-white'
-                  }`}>
-                    ₹{estimatedCACReduction} Lakhs
-                  </span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {metricCategories.map((cat) => (
+                <div key={cat.title} className="p-5 rounded-2xl bg-[#202020] border border-white/5">
+                  <h4 className="text-sm font-bold text-[#FECF05] font-syne uppercase tracking-wider mb-4 border-b border-white/10 pb-2">
+                    {cat.title}
+                  </h4>
+                  <ul className="space-y-2 text-xs text-[#E2E2E2]">
+                    {cat.items.map((item) => (
+                      <li key={item} className="flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#FECF05]" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <div>
-                  <span className={`font-geist text-[11px] block ${
-                    isLight ? 'text-neutral-600' : 'text-white/60'
-                  }`}>
-                    Optimized Sales Cycle
-                  </span>
-                  <span className={`font-mono-custom text-lg font-black ${
-                    isLight ? 'text-black' : 'text-white'
-                  }`}>
-                    {projectedDays} Days
-                  </span>
-                </div>
-              </div>
-
-              <button
-                onClick={() =>
-                  onOpenConsultationWithData &&
-                  onOpenConsultationWithData(currentRevenue, Number(estimatedLiftDollar))
-                }
-                className={`w-full font-mono-custom text-xs uppercase tracking-widest font-black py-4 transition-colors flex items-center justify-center space-x-2 cursor-pointer ${
-                  isLight
-                    ? 'bg-black text-white hover:bg-orange-500'
-                    : 'bg-white text-black hover:bg-orange-500 hover:text-white'
-                }`}
-              >
-                <span>LOCK IN MODEL DATA CONSULTATION (INR)</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
+              ))}
             </div>
           </div>
-        </div>
+        </RevealOnScroll>
       </div>
     </section>
   );
